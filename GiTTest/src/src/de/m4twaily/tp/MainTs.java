@@ -10,12 +10,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class Main extends JavaPlugin implements Listener {
+public class MainTs extends JavaPlugin implements Listener {
 
 	public void onEnable() {
 		PluginManager pm = Bukkit.getPluginManager();
 
 		pm.registerEvents(this, this);
+		
+		MySQL.disconnect();
+	}
+	
+	public void onDisable() {
+		MySQL.disconnect();
 	}
 
 	@EventHandler
