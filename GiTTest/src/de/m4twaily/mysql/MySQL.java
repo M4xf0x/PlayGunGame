@@ -1,4 +1,4 @@
-package src.de.m4twaily.tp;
+package de.m4twaily.mysql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,14 +11,14 @@ public class MySQL {
 	public static String host = "localhost";
 	public static String port = "3306";
 	public static String database = "Plugin";
-	public static String username = "localhost";
+	public static String username = "test";
 	public static String password = "nozLWfstbYU1uikG";
 	public static Connection con;
 
 	public static void connect() {
 		if (!isConnected()) {
 			try {
-				con = DriverManager.getConnection("jdcb:mysql://" + host + ":" + port + "/" + database, username,
+				con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username,
 						password);
 
 				System.out.println(" ");
@@ -71,6 +71,11 @@ public class MySQL {
 			e.printStackTrace();
 		}
 		return null;
+
+	}
+
+	public static Connection getConnection() {
+		return con;
 
 	}
 }

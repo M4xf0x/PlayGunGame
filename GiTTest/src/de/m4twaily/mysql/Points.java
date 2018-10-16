@@ -95,4 +95,21 @@ public class Points {
 
 	}
 
+	public static void addCoins(UUID uuid, int value) {
+		try {
+			int currentValue = getPoints(uuid);
+
+			PreparedStatement ps = MySQL.getConnection().prepareStatement("UPDATE points SET Value = ? WHERE UUID = ?");
+
+			ps.setInt(1, currentValue + value);
+			ps.setString(2, uuid.toString());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 }

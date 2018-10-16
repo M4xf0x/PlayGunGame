@@ -1,5 +1,5 @@
 name: testingPl
 version: 1.0
 author: M4x
-main: de.m4twaily.tp.MainTs
+main: src.de.m4twaily.tp.MainTs
 description: Test
