@@ -21,61 +21,6 @@ public class Points {
 		return false;
 	}
 
-	public static void update(UUID uuid, int amount, boolean remove) {
-		try {
-
-			int points = getPoints(uuid);
-
-			if (remove) {
-				amount -= points;
-			} else {
-				amount += points;
-			}
-
-			if (isUserExisting(uuid)) {
-
-				PreparedStatement ps = MySQL.getConnection()
-						.prepareStatement("UPDATE points SET Value = ? WHERE UUID = ?");
-
-				ps.setString(1, uuid.toString());
-				ps.setInt(2, amount);
-				ps.executeUpdate();
-
-			} else {
-
-				PreparedStatement ps = MySQL.getConnection()
-						.prepareStatement("INSERT INTO points (UUID, Value) VALUES (?,?)");
-
-				ps.setString(1, uuid.toString());
-				ps.setInt(2, amount);
-				ps.executeUpdate();
-
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public static void delete(UUID uuid) {
-		try {
-			if (isUserExisting(uuid)) {
-				PreparedStatement ps = MySQL.getConnection().prepareStatement("DELETE * FROM points WHERE UUID = ?");
-
-				ps.setString(1, uuid.toString());
-				ps.executeUpdate();
-
-			} else {
-				System.out.println(" ");
-				System.out.println("Spieler nicht vorhanden");
-				System.out.println(" ");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public static Integer getPoints(UUID uuid) {
 		try {
 
@@ -96,20 +41,91 @@ public class Points {
 	}
 
 	public static void addCoins(UUID uuid, int value) {
+		int currentValue = getPoints(uuid);
+
 		try {
-			int currentValue = getPoints(uuid);
+			if (isUserExisting(uuid)) {
 
-			PreparedStatement ps = MySQL.getConnection().prepareStatement("UPDATE points SET Value = ? WHERE UUID = ?");
+				PreparedStatement ps = MySQL.getConnection()
+						.prepareStatement("UPDATE points SET Value = ? WHERE UUID = ?");
 
-			ps.setInt(1, currentValue + value);
-			ps.setString(2, uuid.toString());
+				ps.setInt(1, currentValue + value);
+				ps.setString(2, uuid.toString());
 
-			ps.executeUpdate();
+				ps.executeUpdate();
 
+			} else {
+
+				PreparedStatement ps = MySQL.getConnection()
+						.prepareStatement("INSERT INTO points (UUID, Value) VALUES (?,?)");
+
+				ps.setInt(2, currentValue + value);
+				ps.setString(1, uuid.toString());
+
+				ps.executeUpdate();
+
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 	}
 
+	public static void removeCoins(UUID uuid, int value) {
+		int currentValue = getPoints(uuid);
+
+		try {
+			if (isUserExisting(uuid)) {
+
+				PreparedStatement ps = MySQL.getConnection()
+						.prepareStatement("UPDATE points SET Value = ? WHERE UUID = ?");
+
+				ps.setInt(1, currentValue - value);
+				ps.setString(2, uuid.toString());
+
+				ps.executeUpdate();
+
+			} else {
+
+				PreparedStatement ps = MySQL.getConnection()
+						.prepareStatement("INSERT INTO points (UUID, Value) VALUES (?,?)");
+
+				ps.setInt(2, currentValue - value);
+				ps.setString(1, uuid.toString());
+
+				ps.executeUpdate();
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void setCoins(UUID uuid, int value) {
+		try {
+			if (isUserExisting(uuid)) {
+
+				PreparedStatement ps = MySQL.getConnection()
+						.prepareStatement("UPDATE points SET Value = ? WHERE UUID = ?");
+
+				ps.setInt(1, value);
+				ps.setString(2, uuid.toString());
+
+				ps.executeUpdate();
+
+			} else {
+
+				PreparedStatement ps = MySQL.getConnection()
+						.prepareStatement("INSERT INTO points (UUID, Value) VALUES (?,?)");
+
+				ps.setInt(2, value);
+				ps.setString(1, uuid.toString());
+
+				ps.executeUpdate();
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
