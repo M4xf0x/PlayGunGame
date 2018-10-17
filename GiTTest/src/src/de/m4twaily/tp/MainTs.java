@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,13 +18,17 @@ import de.m4twaily.mysql.MySQL;
 import de.m4twaily.mysql.Points;
 
 public class MainTs extends JavaPlugin implements Listener {
-
+	static MainTs main;
+	
 	public void onEnable() {
+		main = this;
 		PluginManager pm = Bukkit.getPluginManager();
 
 		pm.registerEvents(this, this);
 
 		doMySQL();
+		
+		SpinningSkull.spinSkull(new Location(Bukkit.getWorld("world"), 1297, 64, -330));
 
 	}
 
