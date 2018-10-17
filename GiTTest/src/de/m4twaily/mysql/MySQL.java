@@ -50,17 +50,6 @@ public class MySQL {
 		return (con == null ? false : true);
 	}
 
-	public static void update(String qry) {
-		try {
-			PreparedStatement ps = con.prepareStatement(qry);
-
-			ps.executeUpdate();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public static ResultSet getResult(String qry) {
 		try {
 			PreparedStatement ps = con.prepareStatement(qry);

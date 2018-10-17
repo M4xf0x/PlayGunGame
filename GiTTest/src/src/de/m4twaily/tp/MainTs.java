@@ -1,5 +1,8 @@
 package src.de.m4twaily.tp;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,9 +23,7 @@ public class MainTs extends JavaPlugin implements Listener {
 
 		pm.registerEvents(this, this);
 
-		MySQL.connect();
-
-		MySQL.update("CREATE TABLE IF NOT EXISTS Points (UUID VARCHAR(100),Value INT(100))");
+		doMySQL();
 
 	}
 
@@ -46,6 +47,21 @@ public class MainTs extends JavaPlugin implements Listener {
 		} else {
 
 		}
+	}
+
+	public void doMySQL() {
+		try {
+			MySQL.connect();
+
+			PreparedStatement ps = MySQL.getConnection()
+					.prepareStatement("CREATE TABLE IF NOT EXISTS Points (UUID VARCHAR(100),Value INT(100))");
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
