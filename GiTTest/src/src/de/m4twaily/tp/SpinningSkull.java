@@ -76,7 +76,6 @@ public class SpinningSkull {
 				case 16:
 					s.setRotation(BlockFace.NORTH_NORTH_WEST);
 					break;
-
 				}
 
 				bs.update(true, true);
